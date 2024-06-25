@@ -1,6 +1,6 @@
 task: detect
 mode: train
-model: facerec/facrec req/yolov8s.pt
+model: facerec/facrec req/yolov8n.pt
 data: facerec/coco_names.yaml
 epochs: 100
 time: null
