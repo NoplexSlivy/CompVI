@@ -1,0 +1,33 @@
+from mtcnn import MTCNN
+import numpy as np
+import threading
+import cv2 as cv
+
+cap = cv.VideoCapture(1, cv.CAP_DSHOW)
+cap.set(cv.CAP_PROP_FRAME_WIDTH, 800)
+cap.set(cv.CAP_PROP_FRAME_HEIGHT, 1000)
+
+
+detector = MTCNN()
+
+ 
+image = cv.imread('facerec/trainingdata/Screenshot 2024-06-13 173946.png')
+
+
+faces = detector.detect_faces(image)
+
+ 
+
+# Draw bounding boxes around detected faces
+
+for face in faces:
+
+    x, y, width, height = face['box']
+
+    cv.rectangle(image, (x, y), (x + width, y + height), (0, 255, 0), 2)
+
+ 
+
+cv.imshow('Face Detection', image)
+if cv.waitKey(0) == ord("q"):
+    cv.destroyAllWindows()
