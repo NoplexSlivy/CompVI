@@ -1,9 +1,11 @@
 import cv2
 from ultralytics import YOLO
+import time
+from datetime import datetime as dt
 
 model = YOLO('yolov8n.pt')
  # create the camera capturing box
-cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1000)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 850)
@@ -34,5 +36,11 @@ while True:
     cv2.imshow('YOLOv8 detection frame', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+    
+    cLog = [str(dt.now()),]
+    tLog = []
+    tLog.append(cLog)
+    print(tLog)
+    time.sleep(2)
 cap.release()
 cv2.destroyAllWindows()
