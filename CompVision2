@@ -10,15 +10,9 @@ cap.set(cv.CAP_PROP_FRAME_HEIGHT, 1000)
 
 detector = MTCNN()
 
- 
 image = cv.imread('facerec/trainingdata/Screenshot 2024-06-13 173946.png')
 
-
 faces = detector.detect_faces(image)
-
- 
-
-# Draw bounding boxes around detected faces
 
 for face in faces:
 
