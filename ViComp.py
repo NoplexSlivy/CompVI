@@ -2,6 +2,16 @@ import cv2
 from ultralytics import YOLO
 import time
 from datetime import datetime as dt
+import os
+from openpyxl import Workbook
+from openpyxl import load_workbook
+
+workbook = Workbook()
+sheet = workbook.active
+workbook.save(filename= "XLlabWatch_.xlsx")
+sheet['A1'] = "time"
+sheet['B1'] = 'detections'
+sheet['C1'] = "% confident"
 
 model = YOLO('yolov8n.pt')
  # create the camera capturing box
@@ -23,6 +33,7 @@ while True:
 
     results = model(rgb_frame, 640)
     #print(str(results))
+    fLog = []
 
     for result in results:
         boxes = result.boxes
@@ -37,9 +48,14 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
     
-    cLog = [str(dt.now()),]
+    cLog = [str(dt.now()), int(box.cls[0].item()), int(confidence.item() * 100) ]
+    fLog.append(cLog)
+
     tLog = []
-    tLog.append(cLog)
+    if fLog:
+        tLog.append(fLog)
+
+    
     print(tLog)
     time.sleep(2)
 cap.release()
