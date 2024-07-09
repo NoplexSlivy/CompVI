@@ -52,16 +52,8 @@ while True:
         break
     
     cLog = [str(dt.now()), label, int(confidence.item() * 100) ]
-    fLog.append(cLog)
-
-    tLog = []
-    if fLog:
-        tLog.append(fLog)
-    for log in tLog:
-        sheet.append(log)
-
-    
-    print(tLog)
+    sheet.append(cLog)
+    print(str(cLog))
     time.sleep(2)
 wb.save(filename=file_name)
 cap.release()
