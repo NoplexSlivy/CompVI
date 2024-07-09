@@ -3,15 +3,18 @@ from ultralytics import YOLO
 import time
 from datetime import datetime as dt
 import os
-from openpyxl import Workbook
-from openpyxl import load_workbook
+from openpyxl import Workbook as wb , load_workbook
 
-workbook = Workbook()
-sheet = workbook.active
-workbook.save(filename= "XLlabWatch_.xlsx")
-sheet['A1'] = "time"
-sheet['B1'] = 'detections'
-sheet['C1'] = "% confident"
+file_name = "XLlabWatch_.xlsx"
+if not os.path.exists(file_name):
+    workbook = wb()
+    sheet = workbook.active
+    sheet['A1'] = "time"
+    sheet['B1'] = 'detections'
+    sheet['C1'] = "% confident"
+else:
+    workbook = load_workbook(filename=file_name)
+    sheet = wb.active
 
 model = YOLO('yolov8n.pt')
  # create the camera capturing box
@@ -48,15 +51,18 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
     
-    cLog = [str(dt.now()), int(box.cls[0].item()), int(confidence.item() * 100) ]
+    cLog = [str(dt.now()), label, int(confidence.item() * 100) ]
     fLog.append(cLog)
 
     tLog = []
     if fLog:
         tLog.append(fLog)
+    for log in tLog:
+        sheet.append(log)
 
     
     print(tLog)
     time.sleep(2)
+wb.save(filename=file_name)
 cap.release()
 cv2.destroyAllWindows()
